@@ -1,9 +1,5 @@
 <html>
   <head>
-  </head>
-  <body>
-    <h1></h1>
-    <p></p>
     <style>
       h1, p {
         padding-top: 4em;
@@ -11,9 +7,13 @@
         text-align: center;
       }
     </style>
+  </head>
+  <body>
+    <h1></h1>
+    <p></p>
     <script>
       function random(seed) {
-        var x = Math.sin(seed++) * 10000;
+        var x = Math.sin(seed) * 10000;
         return x - Math.floor(x);
       }
 
@@ -21,6 +21,8 @@
         const secondsInADay = 1000 * 60 * 60 * 24
         return Math.floor(new Date() / secondsInADay)
       }
+
+      var seed = daysSinceEpoch()
 
       const potentialChickens = [
         'lindsay',
@@ -43,15 +45,25 @@
         'nicole',
       ]
 
-      const chicken = potentialChickens[Math.floor(random(daysSinceEpoch()) * potentialChickens.length)]
-      const backup1 = potentialChickens[Math.floor(random(daysSinceEpoch() + 1) * potentialChickens.length)]
-      const backup2 = potentialChickens[Math.floor(random(daysSinceEpoch() + 2) * potentialChickens.length)]
-      chickenEmoji = String.fromCodePoint(0x1F414)
+      const randomlySortedChickens = potentialChickens
+        .map(x => [random(seed++), x])
+        .sort(([a, _a], [b, _b]) => a > b ? 1 : -1)
+        .map(([_, x]) => x)
+
+      const chickenEmoji = String.fromCodePoint(0x1F414)
 
       const header = document.querySelector('h1')
-      header.innerText = [chickenEmoji, chickenEmoji, chickenEmoji, chicken, chickenEmoji, chickenEmoji, chickenEmoji].join(' ')
       const p = document.querySelector('p')
-      p.innerHTML = `Backups: ${backup1.bold()} then ${backup2.bold()}`
+      header.innerText = [
+        chickenEmoji,
+        chickenEmoji,
+        chickenEmoji,
+        randomlySortedChickens.pop(),
+        chickenEmoji,
+        chickenEmoji,
+        chickenEmoji
+      ].join(' ')
+      p.innerHTML = `Backups: ${randomlySortedChickens.pop().bold()} then ${randomlySortedChickens.pop().bold()}`
     </script>
   </body>
 </html>
