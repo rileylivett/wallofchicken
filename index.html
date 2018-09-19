@@ -6,13 +6,37 @@
         width: 100%;
         text-align: center;
       }
+      @keyframes clockwise {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+
+      @keyframes counter-clockwise {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(-360deg); }
+      }
+      .chicken {
+        display: inline-block;
+      }
     </style>
   </head>
   <body>
     <a class="github-button" href="https://github.com/damienadermann/wallofchicken/fork" data-size="large" aria-label="Fork damienadermann/wallofchicken on GitHub">Fork</a>
-    <h1></h1>
-    <p></p>
+    <h1>
+      <span class="chicken chicken1">🐔</span>
+      <span class="chicken chicken2">🐔</span>
+      <span class="chicken chicken3">🐔</span>
+      <span id="primary"></span>
+      <span class="chicken chicken4">🐔</span>
+      <span class="chicken chicken5">🐔</span>
+      <span class="chicken chicken6">🐔</span>
+    </h1>
+    <p id="backups"></p>
     <script>
+      function lerp(start, end, t) {
+        return start * (1 - t) + end * t
+      }
+
       function random(seed) {
         var x = Math.sin(seed) * 10000;
         return x - Math.floor(x);
@@ -60,20 +84,27 @@
         .sort(([a, _a], [b, _b]) => a > b ? 1 : -1)
         .map(([_, x]) => x)
 
-      const chickenEmoji = String.fromCodePoint(0x1F414)
+      const primary = document.querySelector('#primary')
+      const backups = document.querySelector('#backups')
+      primary.innerText = randomlySortedChickens.pop()
+      backups.innerHTML = `Backups: ${randomlySortedChickens.pop().bold()} then ${randomlySortedChickens.pop().bold()}`
 
-      const header = document.querySelector('h1')
-      const p = document.querySelector('p')
-      header.innerText = [
-        chickenEmoji,
-        chickenEmoji,
-        chickenEmoji,
-        randomlySortedChickens.pop(),
-        chickenEmoji,
-        chickenEmoji,
-        chickenEmoji
-      ].join(' ')
-      p.innerHTML = `Backups: ${randomlySortedChickens.pop().bold()} then ${randomlySortedChickens.pop().bold()}`
+      setTimeout(() => {
+        const primaryRect = primary.getBoundingClientRect()
+        const centerPoint = primaryRect.x + (primaryRect.width / 2)
+        const chickens = document.querySelectorAll('.chicken')
+        ;[].forEach.call(chickens, (chicken) => {
+          const chickenRect = chicken.getBoundingClientRect()
+          chicken.style.transformOrigin = (-1 * (chickenRect.x - centerPoint)) + "px"
+          chicken.style.animation = [
+            Math.random() > 0.5 ? "clockwise" : "counter-clockwise",
+            lerp(2, 6, Math.random())+ "s",
+            "linear",
+            "infinite",
+          ].join(" ")
+        })
+        document.documentElement.classList.add("playing")
+      }, lerp(1000, 5000, Math.random()))
     </script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
   </body>
