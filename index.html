@@ -89,22 +89,21 @@
       primary.innerText = randomlySortedChickens.pop()
       backups.innerHTML = `Backups: ${randomlySortedChickens.pop().bold()} then ${randomlySortedChickens.pop().bold()}`
 
-      setTimeout(() => {
-        const primaryRect = primary.getBoundingClientRect()
-        const centerPoint = primaryRect.x + (primaryRect.width / 2)
-        const chickens = document.querySelectorAll('.chicken')
-        ;[].forEach.call(chickens, (chicken) => {
-          const chickenRect = chicken.getBoundingClientRect()
-          chicken.style.transformOrigin = (-1 * (chickenRect.x - centerPoint)) + "px"
-          chicken.style.animation = [
-            Math.random() > 0.5 ? "clockwise" : "counter-clockwise",
-            lerp(2, 6, Math.random())+ "s",
-            "linear",
-            "infinite",
-          ].join(" ")
-        })
-        document.documentElement.classList.add("playing")
-      }, lerp(1000, 5000, Math.random()))
+      // Orbit
+      const primaryRect = primary.getBoundingClientRect()
+      const centerPoint = primaryRect.x + (primaryRect.width / 2)
+      const chickens = document.querySelectorAll('.chicken')
+      ;[].forEach.call(chickens, (chicken) => {
+        const chickenRect = chicken.getBoundingClientRect()
+        chicken.style.transformOrigin = (-1 * (chickenRect.x - centerPoint)) + "px"
+        chicken.style.animation = [
+          Math.random() > 0.5 ? "clockwise" : "counter-clockwise",
+          lerp(5, 10, Math.random())+ "s",
+          "linear",
+          lerp(2, 6, Math.random()) + "s", // delay
+          "infinite",
+        ].join(" ")
+      })
     </script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
   </body>
