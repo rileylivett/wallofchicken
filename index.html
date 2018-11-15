@@ -32,6 +32,7 @@
       <span class="chicken chicken6">🐔</span>
     </h1>
     <p id="backups"></p>
+    <p id="backup-backups"></p>
     <script>
       function lerp(start, end, t) {
         return start * (1 - t) + end * t
@@ -89,8 +90,10 @@
 
       const primary = document.querySelector('#primary')
       const backups = document.querySelector('#backups')
+      const backupBackups = document.querySelector('#backup-backups')
       primary.innerText = randomlySortedChickens.pop()
-      backups.innerHTML = `Backups: ${randomlySortedChickens.pop().bold()}, then ${randomlySortedChickens.pop().bold()}, then ${randomlySortedChickens.pop().bold()}, then ${randomlySortedChickens.pop().bold()}`
+      backups.innerHTML = `Backups: ${randomlySortedChickens.pop().bold()} then ${randomlySortedChickens.pop().bold()}`
+      backupBackups.innerHTML = `Backup Backups: ${randomlySortedChickens.pop().bold()} then ${randomlySortedChickens.pop().bold()}`
 
       // Orbit
       const primaryRect = primary.getBoundingClientRect()
