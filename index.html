@@ -70,7 +70,7 @@
         'bakes',
         'brett',
         'gabi.braga',
-        'heather',
+        'riana.ferreira',
         'mario',
         'oliver.diestel',
         'daniel.budden',
@@ -78,7 +78,8 @@
         'ben.vilnis',
         'grant.tibbey',
         'stevehodgkiss',
-        'Katshank'
+        'Katshank',
+        'Ali Graham'
       ]
 
       const randomlySortedChickens = potentialChickens
@@ -89,7 +90,7 @@
       const primary = document.querySelector('#primary')
       const backups = document.querySelector('#backups')
       primary.innerText = randomlySortedChickens.pop()
-      backups.innerHTML = `Backups: ${randomlySortedChickens.pop().bold()} then ${randomlySortedChickens.pop().bold()}`
+      backups.innerHTML = `Backups: ${randomlySortedChickens.pop().bold()}, ${randomlySortedChickens.pop().bold()}, ${randomlySortedChickens.pop().bold()} then ${randomlySortedChickens.pop().bold()}`
 
       // Orbit
       const primaryRect = primary.getBoundingClientRect()
