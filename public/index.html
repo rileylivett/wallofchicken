@@ -27,7 +27,7 @@
     <a class="github-button" href="https://github.com/damienadermann/wallofchicken/fork" data-size="large" aria-label="Fork damienadermann/wallofchicken on GitHub">Fork</a>
     <div id="contents" class="loading">
       <noscript>
-        <p>JS will need to be enabled</p>
+        <p>Please enabled JS</p>
       </noscript>
       <h1>
         <span class="chicken chicken1">🐔</span>
@@ -39,23 +39,44 @@
         <span class="chicken chicken6">🐔</span>
       </h1>
       <p id="backups"></p>
+      <p>
+        <select class="day">
+          <option>TODAY</option>
+          <option>MONDAY</option>
+          <option>TUESDAY</option>
+          <option>WEDNESDAY</option>
+          <option>THURSDAY</option>
+          <option>FRIDAY</option>
+        </select>
+      </p>
     </div>
-    <script>
+    <script type="module">
       const contents = document.querySelector('#contents')
       const primary = document.querySelector('#primary')
       const backups = document.querySelector('#backups')
+      const chickens = document.querySelectorAll('.chicken')
 
-      fetch("/.netlify/functions/daily")
+      function run(day) {
+        fetch('/.netlify/functions/graphql', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query: `{
+            chickens(day: ${day}) {
+              name
+            }
+          }` }),
+        })
         .then(res => res.json())
-        .then(({chickens}) => {
-          render(chickens)
+        .then(({data}) => {
+          render(data.chickens.map(({name}) => name))
         })
         .catch(err => {
           console.error(err)
           fail()
         })
+      }
 
-      setTimeout(function () {
+      setTimeout(() => {
         contents.classList.remove("loading")
       }, 2000)
 
@@ -74,9 +95,12 @@
         contents.classList.remove("loading")
 
         // Orbit
+        ;[].forEach.call(chickens, (chicken) => {
+          chicken.style.transformOrigin = "initial"
+          chicken.style.animation = "none"
+        })
         const primaryRect = primary.getBoundingClientRect()
         const centerPoint = primaryRect.x + (primaryRect.width / 2)
-        const chickens = document.querySelectorAll('.chicken')
         ;[].forEach.call(chickens, (chicken) => {
           const chickenRect = chicken.getBoundingClientRect()
           chicken.style.transformOrigin = (-1 * (chickenRect.x - centerPoint)) + "px"
@@ -93,6 +117,9 @@
       function fail() {
         primary.innerText = "(╯°□°)╯︵ ┻━┻"
       }
+
+      run("TODAY")
+      document.querySelector(".day").addEventListener("change", event => run(event.target.value))
     </script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
   </body>
