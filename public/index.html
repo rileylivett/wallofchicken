@@ -1,0 +1,83 @@
+<html>
+  <head>
+    <style>
+      h1, p {
+        padding-top: 4em;
+        width: 100%;
+        text-align: center;
+      }
+      @keyframes clockwise {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+
+      @keyframes counter-clockwise {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(-360deg); }
+      }
+      .chicken {
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <a class="github-button" href="https://github.com/damienadermann/wallofchicken/fork" data-size="large" aria-label="Fork damienadermann/wallofchicken on GitHub">Fork</a>
+    <h1>
+      <span class="chicken chicken1">🐔</span>
+      <span class="chicken chicken2">🐔</span>
+      <span class="chicken chicken3">🐔</span>
+      <span id="primary">Loading...</span>
+      <span class="chicken chicken4">🐔</span>
+      <span class="chicken chicken5">🐔</span>
+      <span class="chicken chicken6">🐔</span>
+    </h1>
+    <p id="backups"></p>
+    <script>
+      fetch("/.netlify/functions/daily")
+        .then(res => res.json())
+        .then(({chickens}) => {
+          render(chickens)
+        })
+        .catch(err => {
+          console.error(err)
+          fail()
+        })
+
+      function lerp(start, end, t) {
+        return start * (1 - t) + end * t
+      }
+
+      function render(randomlySortedChickens) {
+        const primary = document.querySelector('#primary')
+        const backups = document.querySelector('#backups')
+        primary.innerText = randomlySortedChickens.shift()
+        backups.innerHTML = `
+  Backup: ${randomlySortedChickens.shift().bold()} 
+  <br /> Backup Backup: ${randomlySortedChickens.shift().bold()}
+  <br /> Backup Backup Backup: ${randomlySortedChickens.shift().bold()}
+  <br /> Backup Backup Backup Backup: ${randomlySortedChickens.shift().bold()}
+  `
+        // Orbit
+        const primaryRect = primary.getBoundingClientRect()
+        const centerPoint = primaryRect.x + (primaryRect.width / 2)
+        const chickens = document.querySelectorAll('.chicken')
+        ;[].forEach.call(chickens, (chicken) => {
+          const chickenRect = chicken.getBoundingClientRect()
+          chicken.style.transformOrigin = (-1 * (chickenRect.x - centerPoint)) + "px"
+          chicken.style.animation = [
+            Math.random() > 0.5 ? "clockwise" : "counter-clockwise",
+            lerp(5, 10, Math.random())+ "s",
+            "linear",
+            lerp(2, 6, Math.random()) + "s", // delay
+            "infinite",
+          ].join(" ")
+        })
+      }
+
+      function fail() {
+        primary.innerText = "(╯°□°)╯︵ ┻━┻"
+      }
+    </script>
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </body>
+</html>
