@@ -53,6 +53,6 @@ exports.handler = function(event, context, callback) {
 
   callback(null, {
     statusCode: 200,
-    body: JSON.stringify({ chickens }, null, 2)
+    body: JSON.stringify({ seed, chickens }, null, 2)
   })
 }

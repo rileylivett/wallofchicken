@@ -26,7 +26,7 @@
       <span class="chicken chicken1">🐔</span>
       <span class="chicken chicken2">🐔</span>
       <span class="chicken chicken3">🐔</span>
-      <span id="primary"></span>
+      <span id="primary">Loading...</span>
       <span class="chicken chicken4">🐔</span>
       <span class="chicken chicken5">🐔</span>
       <span class="chicken chicken6">🐔</span>
@@ -37,80 +37,61 @@
         return start * (1 - t) + end * t
       }
 
-      function random(seed) {
-        var x = Math.sin(seed) * 10000;
-        return x - Math.floor(x);
+
+function daysSinceEpoch() {
+  const secondsInADay = 1000 * 60 * 60 * 24
+  const now = new Date()
+  return Math.floor(
+    (now.valueOf() - minutesToMilliseconds(now.getTimezoneOffset())) / secondsInADay
+  )
+}
+
+function minutesToMilliseconds(minutes) {
+  return minutes * 1000 * 60
+}
+console.log({clientSeed: daysSinceEpoch()})
+
+      fetch("/.netlify/functions/daily")
+        .then(res => res.json())
+        .then(({seed, chickens}) => {
+          console.log({seed})
+          render(chickens)
+        })
+        .catch(err => {
+          console.log(err)
+          fail()
+        })
+
+      function render(randomlySortedChickens) {
+        const primary = document.querySelector('#primary')
+        const backups = document.querySelector('#backups')
+        primary.innerText = randomlySortedChickens.shift()
+        backups.innerHTML = `
+  Backup: ${randomlySortedChickens.shift().bold()} 
+  <br /> Backup Backup: ${randomlySortedChickens.shift().bold()}
+  <br /> Backup Backup Backup: ${randomlySortedChickens.shift().bold()}
+  <br /> Backup Backup Backup Backup: ${randomlySortedChickens.shift().bold()}
+  `
+        // Orbit
+        const primaryRect = primary.getBoundingClientRect()
+        const centerPoint = primaryRect.x + (primaryRect.width / 2)
+        const chickens = document.querySelectorAll('.chicken')
+        ;[].forEach.call(chickens, (chicken) => {
+          const chickenRect = chicken.getBoundingClientRect()
+          chicken.style.transformOrigin = (-1 * (chickenRect.x - centerPoint)) + "px"
+          chicken.style.animation = [
+            Math.random() > 0.5 ? "clockwise" : "counter-clockwise",
+            lerp(5, 10, Math.random())+ "s",
+            "linear",
+            lerp(2, 6, Math.random()) + "s", // delay
+            "infinite",
+          ].join(" ")
+        })
       }
 
-      function daysSinceEpoch() {
-        const secondsInADay = 1000 * 60 * 60 * 24
-        const now = new Date()
-        return Math.floor((now.valueOf() - minutesToMilliseconds(now.getTimezoneOffset())) / secondsInADay)
+      function fail() {
+        primary.innerText = ":("
       }
-
-      function minutesToMilliseconds(minutes) {
-        return minutes * 1000 * 60
-      }
-
-      var seed = daysSinceEpoch()
-
-      const potentialChickens = [
-        'lindsay',
-        'riley',
-        'rabidcarrot',
-        'gstamp',
-        'lucas',
-        'khayman',
-        'asellitt',
-        'kelle',
-        'damien.adermann',
-        'claire.grooby',
-        'prasanna',
-        'stacey',
-        'bakes',
-        'riana.ferreira',
-        'mario',
-        'oliver.diestel',
-        'daniel.budden',
-        'bordo',
-        'ben.vilnis',
-        'grant.tibbey',
-        'stevehodgkiss',
-        'Ali Graham',
-        'amanda',
-        'tanya.fonina'
-      ]
-
-      const randomlySortedChickens = potentialChickens
-        .map(x => [random(seed++), x])
-        .sort(([a, _a], [b, _b]) => a > b ? 1 : -1)
-        .map(([_, x]) => x)
-
-      const primary = document.querySelector('#primary')
-      const backups = document.querySelector('#backups')
-      primary.innerText = randomlySortedChickens.pop()
-      backups.innerHTML = `
-Backup: ${randomlySortedChickens.pop().bold()} 
-<br /> Backup Backup: ${randomlySortedChickens.pop().bold()}
-<br /> Backup Backup Backup: ${randomlySortedChickens.pop().bold()}
-<br /> Backup Backup Backup Backup: ${randomlySortedChickens.pop().bold()}
-`
-
-      // Orbit
-      const primaryRect = primary.getBoundingClientRect()
-      const centerPoint = primaryRect.x + (primaryRect.width / 2)
-      const chickens = document.querySelectorAll('.chicken')
-      ;[].forEach.call(chickens, (chicken) => {
-        const chickenRect = chicken.getBoundingClientRect()
-        chicken.style.transformOrigin = (-1 * (chickenRect.x - centerPoint)) + "px"
-        chicken.style.animation = [
-          Math.random() > 0.5 ? "clockwise" : "counter-clockwise",
-          lerp(5, 10, Math.random())+ "s",
-          "linear",
-          lerp(2, 6, Math.random()) + "s", // delay
-          "infinite",
-        ].join(" ")
-      })
     </script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
   </body>
