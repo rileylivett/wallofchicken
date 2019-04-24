@@ -33,34 +33,19 @@
     </h1>
     <p id="backups"></p>
     <script>
-      function lerp(start, end, t) {
-        return start * (1 - t) + end * t
-      }
-
-
-function daysSinceEpoch() {
-  const secondsInADay = 1000 * 60 * 60 * 24
-  const now = new Date()
-  return Math.floor(
-    (now.valueOf() - minutesToMilliseconds(now.getTimezoneOffset())) / secondsInADay
-  )
-}
-
-function minutesToMilliseconds(minutes) {
-  return minutes * 1000 * 60
-}
-console.log({clientSeed: daysSinceEpoch()})
-
       fetch("/.netlify/functions/daily")
         .then(res => res.json())
-        .then(({seed, chickens}) => {
-          console.log({seed})
+        .then(({chickens}) => {
           render(chickens)
         })
         .catch(err => {
-          console.log(err)
+          console.error(err)
           fail()
         })
+
+      function lerp(start, end, t) {
+        return start * (1 - t) + end * t
+      }
 
       function render(randomlySortedChickens) {
         const primary = document.querySelector('#primary')
@@ -90,7 +75,7 @@ console.log({clientSeed: daysSinceEpoch()})
       }
 
       function fail() {
-        primary.innerText = ":("
+        primary.innerText = "(╯°□°)╯︵ ┻━┻"
       }
     </script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
