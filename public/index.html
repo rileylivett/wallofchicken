@@ -18,21 +18,33 @@
       .chicken {
         display: inline-block;
       }
+      .loading {
+        display: none;
+      }
     </style>
   </head>
   <body>
     <a class="github-button" href="https://github.com/damienadermann/wallofchicken/fork" data-size="large" aria-label="Fork damienadermann/wallofchicken on GitHub">Fork</a>
-    <h1>
-      <span class="chicken chicken1">🐔</span>
-      <span class="chicken chicken2">🐔</span>
-      <span class="chicken chicken3">🐔</span>
-      <span id="primary">Loading...</span>
-      <span class="chicken chicken4">🐔</span>
-      <span class="chicken chicken5">🐔</span>
-      <span class="chicken chicken6">🐔</span>
-    </h1>
-    <p id="backups"></p>
+    <div id="contents" class="loading">
+      <noscript>
+        <p>JS will need to be enabled</p>
+      </noscript>
+      <h1>
+        <span class="chicken chicken1">🐔</span>
+        <span class="chicken chicken2">🐔</span>
+        <span class="chicken chicken3">🐔</span>
+        <span id="primary">Loading...</span>
+        <span class="chicken chicken4">🐔</span>
+        <span class="chicken chicken5">🐔</span>
+        <span class="chicken chicken6">🐔</span>
+      </h1>
+      <p id="backups"></p>
+    </div>
     <script>
+      const contents = document.querySelector('#contents')
+      const primary = document.querySelector('#primary')
+      const backups = document.querySelector('#backups')
+
       fetch("/.netlify/functions/daily")
         .then(res => res.json())
         .then(({chickens}) => {
@@ -43,13 +55,16 @@
           fail()
         })
 
+      setTimeout(function () {
+        contents.classList.remove("loading")
+      }, 1000)
+
       function lerp(start, end, t) {
         return start * (1 - t) + end * t
       }
 
       function render(randomlySortedChickens) {
-        const primary = document.querySelector('#primary')
-        const backups = document.querySelector('#backups')
+        contents.classList.remove("loading")
         primary.innerText = randomlySortedChickens.shift()
         backups.innerHTML = `
   Backup: ${randomlySortedChickens.shift().bold()} 
@@ -57,6 +72,7 @@
   <br /> Backup Backup Backup: ${randomlySortedChickens.shift().bold()}
   <br /> Backup Backup Backup Backup: ${randomlySortedChickens.shift().bold()}
   `
+
         // Orbit
         const primaryRect = primary.getBoundingClientRect()
         const centerPoint = primaryRect.x + (primaryRect.width / 2)
