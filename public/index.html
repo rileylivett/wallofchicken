@@ -57,21 +57,21 @@
 
       setTimeout(function () {
         contents.classList.remove("loading")
-      }, 1000)
+      }, 2000)
 
       function lerp(start, end, t) {
         return start * (1 - t) + end * t
       }
 
       function render(randomlySortedChickens) {
-        contents.classList.remove("loading")
         primary.innerText = randomlySortedChickens.shift()
         backups.innerHTML = `
-  Backup: ${randomlySortedChickens.shift().bold()} 
-  <br /> Backup Backup: ${randomlySortedChickens.shift().bold()}
-  <br /> Backup Backup Backup: ${randomlySortedChickens.shift().bold()}
-  <br /> Backup Backup Backup Backup: ${randomlySortedChickens.shift().bold()}
-  `
+        Backup: ${randomlySortedChickens.shift().bold()} 
+        <br /> Backup Backup: ${randomlySortedChickens.shift().bold()}
+        <br /> Backup Backup Backup: ${randomlySortedChickens.shift().bold()}
+        <br /> Backup Backup Backup Backup: ${randomlySortedChickens.shift().bold()}
+        `
+        contents.classList.remove("loading")
 
         // Orbit
         const primaryRect = primary.getBoundingClientRect()
