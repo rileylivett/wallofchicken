@@ -55,8 +55,10 @@
       const primary = document.querySelector('#primary')
       const backups = document.querySelector('#backups')
       const chickens = document.querySelectorAll('.chicken')
+      const daySelector = document.querySelector('.day')
 
       function run(day) {
+        if(!day || day.indexOf("-") >=0 ) return
         fetch('/.netlify/functions/graphql', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -82,6 +84,22 @@
 
       function lerp(start, end, t) {
         return start * (1 - t) + end * t
+      }
+
+      function setupDays() {
+        const DAYS = [
+          "MONDAY",
+          "TUESDAY",
+          "WEDNESDAY",
+          "THURSDAY",
+          "FRIDAY"
+        ]
+        const today = new Date().getDay() - 1;
+        if (today < DAYS.length) {
+          const options = ["TODAY", ...DAYS.slice(today + 1), "---", ...DAYS.slice(0, today)]
+          daySelector.innerHTML = options.map(option => `<option>${option}</option>`).join("")
+        }
+        daySelector.addEventListener("change", event => run(event.target.value))
       }
 
       function render(randomlySortedChickens) {
@@ -118,8 +136,8 @@
         primary.innerText = "(╯°□°)╯︵ ┻━┻"
       }
 
+      setupDays()
       run("TODAY")
-      document.querySelector(".day").addEventListener("change", event => run(event.target.value))
     </script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
   </body>

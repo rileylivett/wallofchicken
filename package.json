@@ -8,9 +8,6 @@
     "dev": "netlify dev --live",
     "build": "netlify-lambda build functions"
   },
-  "engines": {
-    "node": "10"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/damienadermann/wallofchicken.git"
