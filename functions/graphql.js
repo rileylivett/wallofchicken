@@ -1,7 +1,6 @@
 const { ApolloServer, gql } = require("apollo-server-lambda")
 const getChickens = require("./utils/getChickens")
 
-// Construct a schema, using GraphQL schema language
 const typeDefs = gql`
   type Chicken {
     name: String!

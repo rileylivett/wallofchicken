@@ -6,16 +6,14 @@ function random(seed) {
 const MILLISECONDS_IN_A_DAY = 1000 * 60 * 60 * 24
 const AU_TIMEZONE_OFFSET_MILLISECONDS = -10 * 60 * 60 * 1000
 
-function getNextDayOfWeek(day) {
-  const date = new Date()
-  const movement = (7 + day - date.getDay()) % 7
-  date.setTime(date.getTime() + movement * MILLISECONDS_IN_A_DAY)
-  return date.getTime()
-}
-
 function daysSinceEpoch(day) {
-  const now = day ? getNextDayOfWeek(day) : Date.now()
-  return Math.floor((now - AU_TIMEZONE_OFFSET_MILLISECONDS) / MILLISECONDS_IN_A_DAY)
+  const now = new Date()
+  const daysSinceEpoch = Math.floor(
+    (now.getTime() - AU_TIMEZONE_OFFSET_MILLISECONDS) / MILLISECONDS_IN_A_DAY
+  )
+  const epochDayOfTheWeek = (daysSinceEpoch - 3) % 7
+  const movement = day ? (7 + day - epochDayOfTheWeek) % 7 : 0
+  return daysSinceEpoch + movement
 }
 
 const potentialChickens = [
