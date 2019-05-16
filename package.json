@@ -1,0 +1,31 @@
+{
+  "name": "wallofchicken",
+  "version": "1.0.0",
+  "description": "Choses a new team member each day to run standup",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "netlify dev --live",
+    "build": "netlify-lambda build functions"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/damienadermann/wallofchicken.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/damienadermann/wallofchicken/issues"
+  },
+  "homepage": "https://github.com/damienadermann/wallofchicken#readme",
+  "devDependencies": {
+    "apollo-server-lambda": "^2.5.0",
+    "bufferutil": "^4.0.1",
+    "encoding": "^0.1.12",
+    "graphql": "^14.3.0",
+    "netlify-cli": "^2.11.18",
+    "netlify-lambda": "^1.4.7",
+    "utf-8-validate": "^5.0.2"
+  }
+}
