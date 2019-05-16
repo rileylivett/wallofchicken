@@ -3,6 +3,7 @@ const getChickens = require("./utils/getChickens")
 
 const typeDefs = gql`
   type Chicken {
+    id: String!
     name: String!
   }
   enum WeekDays {
@@ -41,7 +42,7 @@ const resolvers = {
     chickens: (parent, args) => {
       const { day } = args
       const dayIndex = whichDay(day)
-      return getChickens(dayIndex).map(chicken => ({ name: chicken }))
+      return getChickens(dayIndex)
     }
   }
 }
