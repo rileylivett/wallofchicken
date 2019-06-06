@@ -37,7 +37,10 @@ const potentialChickens = [
   { id: "U5G7D3MK7", name: "grant.tibbey" },
   { id: "UDWR5TJLR", name: "ali.graham" },
   { id: "UEAR25K88", name: "amanda.varella" },
-  { id: "U56LKECMR", name: "tanya.fonina" }
+  { id: "U56LKECMR", name: "tanya.fonina" },
+  { id: "UF72FC073", name: "Viv" },
+  { id: "UGP1W254P", name: "jason.jun" },
+  { id: "UGWEUTNH5", name: "Izzy" },
 ]
 
 function getChickens(day) {
