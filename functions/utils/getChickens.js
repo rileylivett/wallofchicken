@@ -17,7 +17,6 @@ function daysSinceEpoch(day) {
 }
 
 const potentialChickens = [
-  { id: "U43EQGRQB", name: "lindsay" },
   { id: "U0286USDZ", name: "riley" },
   { id: "U027CLUME", name: "gstamp" },
   { id: "U0A51Q7E2", name: "lucas" },
