@@ -42,13 +42,12 @@ const potentialChickens = [
 
 function getChickens(day) {
   const seed = daysSinceEpoch(day)
-  const rng = seedrandom(seed)
+  const rng = seedrandom(seed * 1e5)
 
   return potentialChickens
     .map(x => [rng(), x])
     .sort(([a, _a], [b, _b]) => (a > b ? 1 : -1))
     .map(([_, x]) => x)
-    .reverse()
     .slice(0, 5)
 }
 
