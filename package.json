@@ -26,6 +26,7 @@
     "graphql": "^14.3.0",
     "netlify-cli": "^2.11.18",
     "netlify-lambda": "^1.4.7",
+    "seedrandom": "^3.0.3",
     "utf-8-validate": "^5.0.2"
   }
 }

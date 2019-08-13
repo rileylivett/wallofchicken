@@ -59,14 +59,18 @@
 
       function run(day) {
         if(!day || day.indexOf("-") >=0 ) return
-        fetch('/.netlify/functions/graphql', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ query: `{
-            chickens(day: ${day}) {
-              name
-            }
-          }` }),
+        fetch("/.netlify/functions/graphql", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            query: `
+              query($day: WeekDays) {
+                chickens(day: $day) {
+                  name
+                }
+              }`,
+            variables: { day }
+          })
         })
         .then(res => res.json())
         .then(({data}) => {

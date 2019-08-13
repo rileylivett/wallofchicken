@@ -1,7 +1,4 @@
-function random(seed) {
-  const x = Math.sin(seed) * 10000
-  return x - Math.floor(x)
-}
+const seedrandom = require("seedrandom")
 
 const MILLISECONDS_IN_A_DAY = 1000 * 60 * 60 * 24
 const AU_TIMEZONE_OFFSET_MILLISECONDS = -10 * 60 * 60 * 1000
@@ -43,12 +40,13 @@ const potentialChickens = [
 ]
 
 function getChickens(day) {
-  let seed = daysSinceEpoch(day)
+  const seed = daysSinceEpoch(day)
+  const rng = seedrandom(seed * 1e5)
+
   return potentialChickens
-    .map(x => [random(seed++), x])
+    .map(x => [rng(), x])
     .sort(([a, _a], [b, _b]) => (a > b ? 1 : -1))
     .map(([_, x]) => x)
-    .reverse()
     .slice(0, 5)
 }
 
