@@ -23,7 +23,7 @@ const potentialChickens = [
   { id: "U44G2GD4M", name: "damien.adermann" },
   { id: "UFM0UL2GG", name: "claire.grooby" },
   { id: "U07271PS5", name: "prasanna.joshi" },
-  { id: "U0G1LM222", name: "stacey" },
+//  { id: "U0G1LM222", name: "stacey" },
   { id: "U1SG7A284", name: "bakes" },
   { id: "UDWHM1JTZ", name: "riana.ferreira" },
   { id: "U029C4B5Z", name: "mario" },
@@ -37,6 +37,8 @@ const potentialChickens = [
   { id: "UGP1W254P", name: "jason.jun" },
   { id: "UGWEUTNH5", name: "Izzy" },
   { id: "U1ATMHP70", name: "travo"},
+  { id: "U0ZFZGJVA", name: "ray.grasso"},
+  { id: "U025K202K", name: "notahat"},
 ]
 
 function getChickens(day) {
