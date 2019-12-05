@@ -38,7 +38,6 @@ const potentialChickens = [
   { id: "UGWEUTNH5", name: "Izzy" },
   { id: "U0ZFZGJVA", name: "ray.grasso"},
   { id: "U025K202K", name: "notahat"},
-  { id: "UB51XE67J", name: "gizotti" }, 
 ]
 
 function getChickens(day) {
