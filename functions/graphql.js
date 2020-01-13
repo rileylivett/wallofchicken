@@ -14,8 +14,18 @@ const typeDefs = gql`
     THURSDAY
     FRIDAY
   }
+
+  enum Team {
+    Elements
+    Artemis
+    Apollo
+    Gemini
+    Mercury
+    Thrive
+  }
+
   type Query {
-    chickens(day: WeekDays): [Chicken!]
+    chickens(day: WeekDays, team: Team): [Chicken!]
   }
 `
 
@@ -40,9 +50,9 @@ function whichDay(day) {
 const resolvers = {
   Query: {
     chickens: (parent, args) => {
-      const { day } = args
+      const { day, team } = args
       const dayIndex = whichDay(day)
-      return getChickens(dayIndex)
+      return getChickens(dayIndex, team)
     }
   }
 }

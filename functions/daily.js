@@ -1,7 +1,10 @@
 const getChickens = require("./utils/getChickens")
 
+const TODAY = undefined
+
 exports.handler = function(event, context, callback) {
-  const chickens = getChickens()
+  const { team } = event.queryStringParameters
+  const chickens = getChickens(TODAY, team)
   callback(null, {
     statusCode: 200,
     body: JSON.stringify(

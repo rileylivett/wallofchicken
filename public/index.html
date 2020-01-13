@@ -48,6 +48,14 @@
           <option>THURSDAY</option>
           <option>FRIDAY</option>
         </select>
+        <select class="team">
+          <option>Elements</option>
+          <option>Artemis</option>
+          <option>Apollo</option>
+          <option>Gemini</option>
+          <option>Mercury</option>
+          <option>Thrive</option>
+        </select>
       </p>
     </div>
     <script type="module">
@@ -56,20 +64,25 @@
       const backups = document.querySelector('#backups')
       const chickens = document.querySelectorAll('.chicken')
       const daySelector = document.querySelector('.day')
+      const teamSelector = document.querySelector('.team')
 
-      function run(day) {
+      function currentValue(element) {
+        return element.options[element.selectedIndex].value
+      }
+
+      function run(day, team) {
         if(!day || day.indexOf("-") >=0 ) return
         fetch("/.netlify/functions/graphql", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             query: `
-              query($day: WeekDays) {
-                chickens(day: $day) {
+              query($day: WeekDays, $team: Team) {
+                chickens(day: $day, team: $team) {
                   name
                 }
               }`,
-            variables: { day }
+            variables: { day, team }
           })
         })
         .then(res => res.json())
@@ -90,7 +103,7 @@
         return start * (1 - t) + end * t
       }
 
-      function setupDays() {
+      function setup() {
         const DAYS = [
           "MONDAY",
           "TUESDAY",
@@ -103,17 +116,19 @@
           const options = ["TODAY", ...DAYS.slice(today + 1), "---", ...DAYS.slice(0, today)]
           daySelector.innerHTML = options.map(option => `<option>${option}</option>`).join("")
         }
-        daySelector.addEventListener("change", event => run(event.target.value))
+
+        const changeHandler = () => run(currentValue(daySelector), currentValue(teamSelector))
+        daySelector.addEventListener("change", changeHandler)
+        teamSelector.addEventListener("change", changeHandler)
+      }
+
+      function backupText(index) {
+        return Array.from({ length: index + 1 }).map(_ => "Backup").join(" ")
       }
 
       function render(randomlySortedChickens) {
-        primary.innerText = randomlySortedChickens.shift()
-        backups.innerHTML = `
-        Backup: ${randomlySortedChickens.shift().bold()} 
-        <br /> Backup Backup: ${randomlySortedChickens.shift().bold()}
-        <br /> Backup Backup Backup: ${randomlySortedChickens.shift().bold()}
-        <br /> Backup Backup Backup Backup: ${randomlySortedChickens.shift().bold()}
-        `
+        primary.innerText = randomlySortedChickens.length ? randomlySortedChickens.shift() : "none"
+        backups.innerHTML = randomlySortedChickens.map((chicken, i) => `${backupText(i)}: <b>${chicken}</b>`).join("<br />")
         contents.classList.remove("loading")
 
         // Orbit
@@ -140,8 +155,8 @@
         primary.innerText = "(╯°□°)╯︵ ┻━┻"
       }
 
-      setupDays()
-      run("TODAY")
+      setup()
+      run("TODAY", "Elements")
     </script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
   </body>
