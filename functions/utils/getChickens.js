@@ -15,36 +15,37 @@ function daysSinceEpoch(day) {
 
 const potentialChickens = [
   { id: "U0286USDZ", name: "riley" },
-  { id: "U027CLUME", name: "gstamp" },
-  { id: "U0A51Q7E2", name: "lucas" },
-  { id: "U02DERN4E", name: "khayman" },
-  { id: "U0274DF37", name: "asellitt" },
-  { id: "U0K8Z1KD1", name: "kelle" },
-  { id: "U44G2GD4M", name: "damien.adermann" },
-  { id: "UFM0UL2GG", name: "claire.grooby" },
-  { id: "U07271PS5", name: "prasanna.joshi" },
-//  { id: "U0G1LM222", name: "stacey" },
-  { id: "U1SG7A284", name: "bakes" },
-  { id: "UDWHM1JTZ", name: "riana.ferreira" },
-  { id: "U029C4B5Z", name: "mario" },
-  { id: "U02PS4KKA", name: "bordo" },
-  { id: "UD8UGSBMZ", name: "ben.vilnis" },
-  { id: "U5G7D3MK7", name: "grant.tibbey" },
-  { id: "UDWR5TJLR", name: "ali.graham" },
-  { id: "UEAR25K88", name: "amanda.varella" },
-  { id: "U56LKECMR", name: "tanya.fonina" },
-  { id: "UF72FC073", name: "Viv" },
-  { id: "UGP1W254P", name: "jason.jun" },
-  { id: "UGWEUTNH5", name: "Izzy" },
-  { id: "U0ZFZGJVA", name: "ray.grasso"},
-  { id: "U025K202K", name: "notahat"},
+  { id: "U027CLUME", name: "gstamp", team: "mercury" },
+  { id: "U0A51Q7E2", name: "lucas", team: "mercury" },
+  { id: "U02DERN4E", name: "khayman", team: "artemis" },
+  { id: "U0274DF37", name: "asellitt", team: "artemis" },
+  { id: "U0K8Z1KD1", name: "kelle", team: "artemis" },
+  { id: "U44G2GD4M", name: "damien.adermann", team: "apollo" },
+  { id: "UFM0UL2GG", name: "claire.grooby", team: "artemis" },
+  { id: "U07271PS5", name: "prasanna.joshi", team: "apollo" },
+  //  { id: "U0G1LM222", name: "stacey" , team: "apollo"},
+  { id: "U1SG7A284", name: "bakes", team: "mercury" },
+  { id: "UDWHM1JTZ", name: "riana.ferreira", team: "artemis" },
+  { id: "U029C4B5Z", name: "mario", team: "apollo" },
+  { id: "U02PS4KKA", name: "bordo", team: "apollo" },
+  { id: "UD8UGSBMZ", name: "ben.vilnis", team: "gemini" },
+  { id: "U5G7D3MK7", name: "grant.tibbey", team: "gemini" },
+  { id: "UDWR5TJLR", name: "ali.graham", team: "gemini" },
+  { id: "UEAR25K88", name: "amanda.varella", team: "artemis" },
+  { id: "U56LKECMR", name: "tanya.fonina", team: "artemis" },
+  { id: "UF72FC073", name: "Viv", team: "artemis" },
+  { id: "UGP1W254P", name: "jason.jun", team: "artemis" },
+  { id: "UGWEUTNH5", name: "Izzy", team: "apollo" },
+  { id: "U0ZFZGJVA", name: "ray.grasso" },
+  { id: "U025K202K", name: "notahat", team: "mercury" }
 ]
 
-function getChickens(day) {
+function getChickens(day, team) {
   const seed = daysSinceEpoch(day)
   const rng = seedrandom(seed * 1e5)
 
   return potentialChickens
+    .filter(x => !team || x.team === team.toLowerCase() || "elements" === team.toLowerCase())
     .map(x => [rng(), x])
     .sort(([a, _a], [b, _b]) => (a > b ? 1 : -1))
     .map(([_, x]) => x)
