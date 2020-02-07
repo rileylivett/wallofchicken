@@ -36,7 +36,7 @@ const potentialChickens = [
   { id: "UGP1W254P", name: "jason.jun", team: "artemis" },
   { id: "UGWEUTNH5", name: "Izzy", team: "apollo" },
   { id: "U0ZFZGJVA", name: "ray.grasso" },
-  { id: "U025K202K", name: "notahat", team: "mercury" }
+  { id: "U025K202K", name: "notahat", team: "mercury" },
   { id: "U932TDX9V", name: "paul", team: "gemini" }
 ]
 
