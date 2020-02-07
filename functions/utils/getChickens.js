@@ -32,7 +32,7 @@ const potentialChickens = [
   { id: "U5G7D3MK7", name: "grant.tibbey", team: "gemini" },
   { id: "UDWR5TJLR", name: "ali.graham", team: "gemini" },
   { id: "UEAR25K88", name: "amanda.varella", team: "artemis" },
-  { id: "UF72FC073", name: "Viv", team: "artemis" },
+  { id: "UF72FC073", name: "Viv", team: "apollo" },
   { id: "UGP1W254P", name: "jason.jun", team: "artemis" },
   { id: "UGWEUTNH5", name: "Izzy", team: "apollo" },
   { id: "U0ZFZGJVA", name: "ray.grasso" },
